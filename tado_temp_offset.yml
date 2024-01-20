@@ -16,10 +16,19 @@ blueprint:
       selector:
         entity:
           domain: climate
+    offset_threshold:
+      name: Offset threshold
+      description: The offset threshold which needs to be reached until the temperature is updated.
+      selector:
+        number:
+          min: 0
+          max: 5
+          mode: box
 
 variables:
   target_tado: !input target_tado
   source_temp_sensor: !input source_temp_sensor
+  offset_threshold: !input ofset_threshold
   tado_temp: "{{ state_attr(target_tado, 'current_temperature') | float }}"
   current_offset: "{{ state_attr(target_tado, 'offset_celsius') }}"
   actual_temp: "{{ states(source_temp_sensor) | float }}"
@@ -35,7 +44,7 @@ trigger:
 
 condition:
 - condition: template
-  value_template: "{{ offset > 0.1 }}"
+  value_template: "{{ offset > offset_threshold }}"
 - condition: template
   value_template: "{{ actual_temp != 0 }}"
 
