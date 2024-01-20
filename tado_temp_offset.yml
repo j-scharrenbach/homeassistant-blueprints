@@ -28,7 +28,7 @@ blueprint:
 variables:
   target_tado: !input target_tado
   source_temp_sensor: !input source_temp_sensor
-  offset_threshold: !input ofset_threshold
+  offset_threshold: !input offset_threshold
   tado_temp: "{{ state_attr(target_tado, 'current_temperature') | float }}"
   current_offset: "{{ state_attr(target_tado, 'offset_celsius') }}"
   actual_temp: "{{ states(source_temp_sensor) | float }}"
